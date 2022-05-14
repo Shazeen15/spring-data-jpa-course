@@ -36,12 +36,18 @@ public class Application {
             Student damien = new Student("Damien",
                 "Fabius",
                 "damien@email.com",
-                10);
+                9);
+
+            Student neighbor = new Student("Beka",
+                "Neighbor",
+                "beka@email.com",
+                30);
 
             studentRepository.saveAll(List.of(me,
                 jamile,
                 leslie,
-                damien));
+                damien,
+                neighbor));
 
             studentRepository.findStudentByEmail("shazeen@email.com")
                 .ifPresentOrElse(student -> {
@@ -70,6 +76,10 @@ public class Application {
                 .forEach(student -> {
                     System.out.println(student);
                 });
+
+            System.out.println("Deleting...");
+            int studentDeleted = studentRepository.deleteStudentById(5L);
+            System.out.println(studentDeleted);
         };
     }
 
