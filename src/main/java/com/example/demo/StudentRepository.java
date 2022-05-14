@@ -2,6 +2,7 @@ package com.example.demo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +17,17 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
         String firstName,
         Integer age);
 
-    @Query(value = "select * from student where first_name = ?1 and age = ?2",
+    //    @Query(value = "select * from student where first_name = ?1 and age = ?2",
+    //        nativeQuery = true)
+    //    List<Student> findStudentsByFirstNameEqualsAndAgeEqualsNative(
+    //        String firstName,
+    //        Integer age);
+
+    @Query(value = "select * from student where first_name = :firstName and age = :age",
         nativeQuery = true)
     List<Student> findStudentsByFirstNameEqualsAndAgeEqualsNative(
-        String firstName,
-        Integer age);
+        @Param("firstName")
+            String firstName,
+        @Param("age")
+            Integer age);
 }
