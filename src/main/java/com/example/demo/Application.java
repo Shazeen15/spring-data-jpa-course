@@ -28,44 +28,48 @@ public class Application {
                 "jamile@email.com",
                 29);
 
+            Student leslie = new Student("Leslie",
+                "Fabius",
+                "leslie@email.com",
+                10);
+
+            Student damien = new Student("Damien",
+                "Fabius",
+                "damien@email.com",
+                10);
+
             studentRepository.saveAll(List.of(me,
-                jamile));
+                jamile,
+                leslie,
+                damien));
 
-            System.out.println("Number of Students: ");
-            System.out.println(studentRepository.count());
-
-            studentRepository.findById(2L)
+            studentRepository.findStudentByEmail("shazeen@email.com")
                 .ifPresentOrElse(student -> {
                         System.out.println(student);
                     },
                     () -> {
-                        System.out.println("Student with id 2 not found");
+                        System.out.println("Student with email shazeen@email.com not found.");
                     });
 
-            studentRepository.findById(3L)
+            studentRepository.findStudentByEmail("shazzy@email.com")
                 .ifPresentOrElse(student -> {
                         System.out.println(student);
                     },
                     () -> {
-                        System.out.println("Student with id 3 not found");
+                        System.out.println("Student with email shazzy@email.com not found.");
                     });
 
-            System.out.println("Adding students");
-            List<Student> students = studentRepository.findAll();
+            studentRepository.findStudentsByFirstNameEqualsAndAgeEquals("Shazeen",
+                    28)
+                .forEach(student -> {
+                    System.out.println(student);
+                });
 
-            System.out.println("Printing all students");
-            students.forEach(student -> {
-                System.out.println(student);
-            });
-            System.out.println(students);
-
-            System.out.println("Deleting with student Id 1L");
-            studentRepository.deleteById(1L);
-
-            System.out.println("Number of Students: ");
-            System.out.println(studentRepository.count());
-
-            //studentRepository.deleteAll();
+            studentRepository.findStudentsByFirstNameEqualsAndAgeEqualsNative("Shazeen",
+                    28)
+                .forEach(student -> {
+                    System.out.println(student);
+                });
         };
     }
 
