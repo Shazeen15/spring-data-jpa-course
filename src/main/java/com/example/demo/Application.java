@@ -1,11 +1,10 @@
 package com.example.demo;
 
+import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.List;
 
 @SpringBootApplication
 public class Application {
@@ -18,68 +17,25 @@ public class Application {
     @Bean
     CommandLineRunner commandLineRunner(StudentRepository studentRepository) {
         return args -> {
-            Student me = new Student("Shazeen",
-                "Fabius",
-                "shazeen@email.com",
-                28);
+            Faker faker = new Faker();
+            for (int i = 0; i <= 20; i++) {
+                String firstName = faker.name()
+                    .firstName();
+                String lastName = faker.name()
+                    .lastName();
+                String email = String.format("%s.%s@email.com",
+                    firstName,
+                    lastName);
 
-            Student jamile = new Student("Jamile",
-                "Fabius",
-                "jamile@email.com",
-                29);
+                Student student = new Student(firstName,
+                    lastName,
+                    email,
+                    faker.number()
+                        .numberBetween(0,
+                            100));
 
-            Student leslie = new Student("Leslie",
-                "Fabius",
-                "leslie@email.com",
-                10);
-
-            Student damien = new Student("Damien",
-                "Fabius",
-                "damien@email.com",
-                9);
-
-            Student neighbor = new Student("Beka",
-                "Neighbor",
-                "beka@email.com",
-                30);
-
-            studentRepository.saveAll(List.of(me,
-                jamile,
-                leslie,
-                damien,
-                neighbor));
-
-            studentRepository.findStudentByEmail("shazeen@email.com")
-                .ifPresentOrElse(student -> {
-                        System.out.println(student);
-                    },
-                    () -> {
-                        System.out.println("Student with email shazeen@email.com not found.");
-                    });
-
-            studentRepository.findStudentByEmail("shazzy@email.com")
-                .ifPresentOrElse(student -> {
-                        System.out.println(student);
-                    },
-                    () -> {
-                        System.out.println("Student with email shazzy@email.com not found.");
-                    });
-
-            studentRepository.findStudentsByFirstNameEqualsAndAgeEquals("Shazeen",
-                    28)
-                .forEach(student -> {
-                    System.out.println(student);
-                });
-
-            studentRepository.findStudentsByFirstNameEqualsAndAgeEqualsNative("Shazeen",
-                    28)
-                .forEach(student -> {
-                    System.out.println(student);
-                });
-
-            System.out.println("Deleting...");
-            int studentDeleted = studentRepository.deleteStudentById(5L);
-            System.out.println(studentDeleted);
+                studentRepository.save(student);
+            }
         };
     }
 
