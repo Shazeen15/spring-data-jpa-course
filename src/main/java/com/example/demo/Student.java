@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -49,6 +51,11 @@ public class Student {
         orphanRemoval = true)
     private StudentIdCard studentIdCard;
 
+    @OneToMany(mappedBy = "student",
+        orphanRemoval = true,
+        cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Book> books = new ArrayList<>();
+
     public Student(
         String firstName,
         String lastName,
@@ -71,6 +78,24 @@ public class Student {
         this.email = email;
         this.age = age;
         this.studentIdCard = studentIdCard;
+    }
+
+    public void addBook(Book book) throws IllegalAccessException {
+        if (!this.books.contains(book)) {
+            this.books.add(book);
+            book.setStudent(this);
+        } else {
+            throw new IllegalAccessException("Student already has the book.");
+        }
+    }
+
+    public void removeBook(Book book) throws IllegalAccessException {
+        if (this.books.contains(book)) {
+            this.books.remove(book);
+            book.setStudent(null);
+        } else {
+            throw new IllegalAccessException("Student does not have the book.");
+        }
     }
 
     @Override
