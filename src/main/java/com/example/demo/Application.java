@@ -30,6 +30,8 @@ public class Application {
             Page<Student> studentPage = studentRepository.findAll(pageRequest);
 
             System.out.println(studentPage);
+
+            
         };
     }
 
