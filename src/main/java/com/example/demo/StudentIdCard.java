@@ -29,12 +29,20 @@ public class StudentIdCard {
         length = 15)
     private String cardNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,
+        fetch = FetchType.EAGER) //default fetch value
     @JoinColumn(name = "student_id",
         referencedColumnName = "id")
     private Student student;
 
     public StudentIdCard(String cardNumber) {
         this.cardNumber = cardNumber;
+    }
+
+    public StudentIdCard(
+        String cardNumber,
+        Student student) {
+        this.cardNumber = cardNumber;
+        this.student = student;
     }
 }
