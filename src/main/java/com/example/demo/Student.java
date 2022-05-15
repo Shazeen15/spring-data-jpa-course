@@ -53,7 +53,8 @@ public class Student {
 
     @OneToMany(mappedBy = "student",
         orphanRemoval = true,
-        cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+        cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+        fetch = FetchType.LAZY) // best to leave at lazy if you need the books make the application query for the books
     private List<Book> books = new ArrayList<>();
 
     public Student(

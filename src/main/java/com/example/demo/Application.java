@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @SpringBootApplication
 public class Application {
 
@@ -35,19 +38,60 @@ public class Application {
                 faker.number()
                     .numberBetween(0,
                         100));
-
             StudentIdCard studentIdCard = new StudentIdCard("123456789",
                 student);
 
+            String bookName = faker.book()
+                .title();
+            LocalDateTime createdAt = LocalDateTime.now()
+                .minusDays(10);
+
+            Book book = new Book(bookName,
+                createdAt);
+
+            student.addBook(book);
+
+            String bookName2 = faker.book()
+                .title();
+
+            LocalDateTime createdAt2 = LocalDateTime.now()
+                .minusDays(15);
+
+            Book book2 = new Book(bookName2,
+                createdAt2);
+
+            student.addBook(book2);
+
+            String bookName3 = faker.book()
+                .title();
+
+            LocalDateTime createdAt3 = LocalDateTime.now()
+                .minusDays(20);
+
+            Book book3 = new Book(bookName3,
+                createdAt3);
+
+            student.addBook(book3);
+
             studentIdCardRepository.save(studentIdCard);
 
-            //            studentRepository.findById(1L)
-            //                .ifPresent(System.out::println);
-            //
+            studentRepository.findById(1L)
+                .ifPresent(s -> {
+                    List<Book> sbooks = s.getBooks();
+                    sbooks.forEach(bk -> {
+                        System.out.println(bk.getBookName());
+                    });
+                    //                    System.out.println("fetch book lazy...");
+                    //                    List<Book> books = student.getBooks();
+                    //                    books.forEach(b -> {
+                    //                        System.out.println(s.getFirstName() + " borrowed " + b.getBookName());
+                    //                    });
+                });
+
             //            studentIdCardRepository.findById(1L)
             //                .ifPresent(System.out::println);
 
-            studentRepository.deleteById(1L);
+            //            studentRepository.deleteById(1L);
         };
     }
 
