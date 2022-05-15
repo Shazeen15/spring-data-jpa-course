@@ -58,6 +58,15 @@ public class Student {
         fetch = FetchType.LAZY) // best to leave at lazy if you need the books make the application query for the books
     private List<Book> books = new ArrayList<>();
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+        fetch = FetchType.LAZY)
+    @JoinTable(name = "enrollment",
+        joinColumns = @JoinColumn(name = "student_id",
+            foreignKey = @ForeignKey(name = "enrollment_student_id_fk")),
+        inverseJoinColumns = @JoinColumn(name = "course_id",
+            foreignKey = @ForeignKey(name = "enrollment_course_id_fk")))
+    private List<Course> courses = new ArrayList<>();
+
     public Student(
         String firstName,
         String lastName,
@@ -98,6 +107,18 @@ public class Student {
         } else {
             throw new IllegalAccessException("Student does not have the book.");
         }
+    }
+
+    public void enrollToCourse(Course course) {
+        courses.add(course);
+        course.getStudents()
+            .add(this);
+    }
+
+    public void unEnrollToCourse(Course course) {
+        courses.add(course);
+        course.getStudents()
+            .remove(this);
     }
 
     @Override

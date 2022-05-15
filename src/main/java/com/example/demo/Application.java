@@ -41,6 +41,25 @@ public class Application {
             StudentIdCard studentIdCard = new StudentIdCard("123456789",
                 student);
 
+            String courseName = faker.buffy()
+                .characters();
+            String departmentName = faker.music()
+                .genre();
+
+            Course course1 = new Course(courseName,
+                departmentName);
+
+            String courseName1 = faker.buffy()
+                .characters();
+            String departmentName1 = faker.music()
+                .genre();
+
+            Course course = new Course(courseName1,
+                departmentName1);
+
+            student.enrollToCourse(course);
+            student.enrollToCourse(course1);
+
             String bookName = faker.book()
                 .title();
             LocalDateTime createdAt = LocalDateTime.now()
@@ -84,7 +103,7 @@ public class Application {
                     //                    sbooks.forEach(bk -> {
                     //                        System.out.println(bk.getBookName());
                     //                    });
-                    
+
                     // fetch = FetchType.LAZY
                     System.out.println("fetch book lazy...");
                     List<Book> books = student.getBooks();
