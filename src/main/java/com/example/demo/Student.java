@@ -48,6 +48,7 @@ public class Student {
     private Integer age;
 
     @OneToOne(mappedBy = "student",
+        cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
         orphanRemoval = true)
     private StudentIdCard studentIdCard;
 

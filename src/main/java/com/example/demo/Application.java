@@ -73,19 +73,24 @@ public class Application {
 
             student.addBook(book3);
 
-            studentIdCardRepository.save(studentIdCard);
+            student.setStudentIdCard(studentIdCard);
+
+            studentRepository.save(student);
 
             studentRepository.findById(1L)
                 .ifPresent(s -> {
-                    List<Book> sbooks = s.getBooks();
-                    sbooks.forEach(bk -> {
-                        System.out.println(bk.getBookName());
-                    });
-                    //                    System.out.println("fetch book lazy...");
-                    //                    List<Book> books = student.getBooks();
-                    //                    books.forEach(b -> {
-                    //                        System.out.println(s.getFirstName() + " borrowed " + b.getBookName());
+                    // fetch = FetchType.EAGER
+                    //                    List<Book> sbooks = s.getBooks();
+                    //                    sbooks.forEach(bk -> {
+                    //                        System.out.println(bk.getBookName());
                     //                    });
+                    
+                    // fetch = FetchType.LAZY
+                    System.out.println("fetch book lazy...");
+                    List<Book> books = student.getBooks();
+                    books.forEach(b -> {
+                        System.out.println(s.getFirstName() + " borrowed " + b.getBookName());
+                    });
                 });
 
             //            studentIdCardRepository.findById(1L)
