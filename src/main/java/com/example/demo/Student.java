@@ -1,6 +1,9 @@
 package com.example.demo;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -8,7 +11,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity(name = "Student")
 @Table(name = "student",
     uniqueConstraints = {@UniqueConstraint(name = "student_email_unique",
@@ -43,6 +45,9 @@ public class Student {
         nullable = false)
     private Integer age;
 
+    @OneToOne(mappedBy = "student",
+        orphanRemoval = true)
+    private StudentIdCard studentIdCard;
 
     public Student(
         String firstName,
@@ -53,5 +58,23 @@ public class Student {
         this.lastName = lastName;
         this.email = email;
         this.age = age;
+    }
+
+    public Student(
+        String firstName,
+        String lastName,
+        String email,
+        Integer age,
+        StudentIdCard studentIdCard) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+        this.studentIdCard = studentIdCard;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" + "firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", email='" + email + '\'' + ", age=" + age + '}';
     }
 }
