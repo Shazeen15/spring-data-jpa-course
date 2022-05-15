@@ -32,7 +32,8 @@ public class StudentIdCard {
     @OneToOne(cascade = CascadeType.ALL,
         fetch = FetchType.EAGER) //default fetch value
     @JoinColumn(name = "student_id",
-        referencedColumnName = "id")
+        referencedColumnName = "id",
+        foreignKey = @ForeignKey(name = "student_id_fk"))
     private Student student;
 
     public StudentIdCard(String cardNumber) {
