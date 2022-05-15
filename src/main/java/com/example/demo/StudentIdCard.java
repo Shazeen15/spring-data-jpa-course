@@ -29,7 +29,7 @@ public class StudentIdCard {
         length = 15)
     private String cardNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id",
         referencedColumnName = "id")
     private Student student;
